@@ -19,3 +19,4 @@ GAME CONTROL
 
 1. Use arrow keys to navigate your character
 2. Avoid enemy vehicles
+3. Collecte gems as more as possible

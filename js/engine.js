@@ -96,6 +96,7 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         player.update();
+        gem.update();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -149,11 +150,12 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
+         // Render gem first, or it will cover other sprites such as player
+        gem.render();
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
-
-        player.render();
+        player.render();  
     }
 
     /* This function does nothing but it could have been a good place to
@@ -164,6 +166,8 @@ var Engine = (function(global) {
         // Reset player to initial position
         player.col = 2;
         player.row = 5;
+        // Reset collected gem number
+        gemCollected = 0;
     }
     // Take two sprites as input, return true if them collide
     function checkCollision(sprite1, sprite2) {
@@ -182,6 +186,10 @@ var Engine = (function(global) {
                 reset();
             }
         }
+        if(checkCollision(player, gem)) {
+            gemCollected += 1;
+            gem.collected = true;
+        }
         // checkCollision(player, allEnemies);
     }
 
@@ -194,7 +202,8 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/Gem Blue.png'
     ]);
     Resources.onReady(init);
 

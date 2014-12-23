@@ -86,14 +86,40 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.col*101, this.row*83-24);
 }
 
+var Gem = function() {
+    this.sprite = 'images/Gem Blue.png';
+    // Gem can appear in any stone block (row 1 to row 3)
+    this.row = Math.floor(Math.random()*3+1);
+    this.col = Math.floor(Math.random()*5);
+    // Whether the gem have been collected by the player. A new 
+    // gem can be generated only if old gem has been collected
+    this.collected = false;
+}
+Gem.prototype.update = function() {
+    // If current gem is collected, create a new gem
+    if(gem.collected) {
+        gem = new Gem();
+    }
+
+}
+Gem.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.col*101, this.row*83-24);
+    // Show message about number of gems collected
+    ctx.font="20px Georgia";
+    ctx.fillText("Gem: "+gemCollected, 10, 100);
+}
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-allEnemies = [];
+var allEnemies = [];
+// Variable recording the gem number that the player collected
+var gemCollected = 0;
 // Instantiate an enemy vehicle every 1.5 seconds
 // and push it into allEnemies array
 setInterval(makeEnemy, 1500);
 var player = new Player();
+var gem = new Gem();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
