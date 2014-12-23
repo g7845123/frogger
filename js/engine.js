@@ -80,8 +80,9 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
     }
+
 
     /* This is called by the update function  and loops through all of the
      * objects within your allEnemies array as defined in app.js and calls
@@ -160,7 +161,28 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+        // Reset player to initial position
+        player.col = 2;
+        player.row = 5;
+    }
+    // Take two sprites as input, return true if them collide
+    function checkCollision(sprite1, sprite2) {
+        // If two sprites are in the same grid, they collide
+        if(sprite1.col===sprite2.col && sprite1.row===sprite2.row) {
+            return true;
+        }
+    }
+
+    function checkCollisions() {
+        // Iterate through all enemy vehicles to check 
+        // if one of them collides with player
+        for(idx in allEnemies) {
+            if(checkCollision(player, allEnemies[idx])) {
+                // Player collides with enemy vihicle, reset game
+                reset();
+            }
+        }
+        // checkCollision(player, allEnemies);
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -181,4 +203,5 @@ var Engine = (function(global) {
      * from within their app.js files.
      */
     global.ctx = ctx;
+    global.canvas = canvas;
 })(this);
